@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Burger Parisien — Burgers Artisanaux Halal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --noir: #0a0804;
+    --or: #c8973a;
+    --or-clair: #e8b85a;
+    --or-pale: #f5e6c0;
+    --creme: #f9f3e8;
+    --brun: #2a1f0e;
+    --rouge: #8b1a1a;
+    --gris: #6b6055;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--noir);
+    color: var(--creme);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(10,8,4,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(200,151,58,0.2);
+    transition: padding 0.3s;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-weight: 900; letter-spacing: 0.08em;
+    color: var(--or); text-decoration: none;
+    text-transform: uppercase;
+  }
+  .nav-logo span { font-style: italic; font-weight: 400; color: var(--or-clair); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--or-pale); text-decoration: none;
+    opacity: 0.75; transition: opacity 0.2s, color 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; color: var(--or); }
+  .nav-halal {
+    font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--or); border: 1px solid var(--or);
+    padding: 0.45rem 1rem; border-radius: 2px;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh; display: grid; place-items: center; position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 80%, rgba(200,151,58,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 20% 20%, rgba(139,26,26,0.08) 0%, transparent 60%),
+      linear-gradient(180deg, #0a0804 0%, #120e06 50%, #0a0804 100%);
+  }
+  .hero-grain {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 200px;
+  }
+  .hero-lines {
+    position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+  }
+  .hero-lines::before {
+    content: ''; position: absolute;
+    left: 50%; top: 0; bottom: 0; width: 1px;
+    background: linear-gradient(180deg, transparent, rgba(200,151,58,0.15) 30%, rgba(200,151,58,0.15) 70%, transparent);
+    transform: translateX(-50%);
+  }
+  .hero-content {
+    position: relative; z-index: 1; text-align: center;
+    padding: 2rem; max-width: 900px;
+    animation: fadeUp 1.2s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.35em;
+    text-transform: uppercase; color: var(--or); margin-bottom: 1.5rem;
+    display: flex; align-items: center; justify-content: center; gap: 1rem;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: ''; flex: 1; max-width: 60px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--or));
+  }
+  .hero-eyebrow::after { background: linear-gradient(90deg, var(--or), transparent); }
+  .hero-title {
+    font-family: 'Playfair Display', serif; font-size: clamp(3.5rem, 10vw, 8rem);
+    font-weight: 900; line-height: 0.9; letter-spacing: -0.02em;
+    color: var(--creme); margin-bottom: 0.3em;
+  }
+  .hero-title em {
+    display: block; font-style: italic; font-weight: 400; font-size: 0.65em;
+    color: var(--or); letter-spacing: 0.02em;
+  }
+  .hero-sub {
+    font-size: 1.2rem; font-weight: 300; letter-spacing: 0.05em;
+    color: var(--or-pale); opacity: 0.8; margin: 1.5rem auto;
+    max-width: 500px; line-height: 1.7;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 0.8rem; margin-top: 2.5rem;
+    padding: 1rem 2.5rem;
+    background: linear-gradient(135deg, var(--or) 0%, var(--or-clair) 100%);
+    color: var(--noir); font-family: 'DM Mono', monospace; font-size: 0.72rem;
+    letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none;
+    border-radius: 2px; font-weight: 400;
+    box-shadow: 0 0 40px rgba(200,151,58,0.25);
+    transition: box-shadow 0.3s, transform 0.3s;
+  }
+  .hero-cta:hover { box-shadow: 0 0 60px rgba(200,151,58,0.5); transform: translateY(-2px); }
+  .hero-scroll {
+    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em;
+    color: var(--or); opacity: 0.5; text-transform: uppercase;
+    animation: bounce 2s infinite;
+  }
+  .hero-scroll::after { content: '↓'; font-size: 1rem; }
+  @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+  /* ── DIVIDERS ── */
+  .divider {
+    display: flex; align-items: center; gap: 1.5rem;
+    margin: 0 auto 3rem; max-width: 400px; padding: 0 2rem;
+  }
+  .divider::before, .divider::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(200,151,58,0.4));
+  }
+  .divider::after { background: linear-gradient(90deg, rgba(200,151,58,0.4), transparent); }
+  .divider-icon { color: var(--or); font-size: 1.2rem; }
+  .section-label {
+    font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.35em;
+    text-transform: uppercase; color: var(--or); text-align: center;
+    margin-bottom: 0.8rem; opacity: 0.8;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700; text-align: center; color: var(--creme);
+    margin-bottom: 1rem; line-height: 1.1;
+  }
+  .section-title em { font-style: italic; color: var(--or); }
+  .section-intro {
+    text-align: center; font-size: 1.1rem; font-weight: 300; line-height: 1.8;
+    color: var(--or-pale); opacity: 0.8; max-width: 600px; margin: 0 auto;
+  }
+
+  /* ── VALEURS ── */
+  #valeurs { padding: 7rem 4rem; }
+  .valeurs-grid {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 1px;
+    max-width: 1000px; margin: 4rem auto 0;
+    border: 1px solid rgba(200,151,58,0.15);
+  }
+  .valeur-card {
+    padding: 3rem 2.5rem; text-align: center; position: relative;
+    border-right: 1px solid rgba(200,151,58,0.12);
+    background: rgba(255,255,255,0.01);
+    transition: background 0.3s;
+  }
+  .valeur-card:last-child { border-right: none; }
+  .valeur-card:hover { background: rgba(200,151,58,0.04); }
+  .valeur-icon { font-size: 2rem; margin-bottom: 1.2rem; display: block; }
+  .valeur-card h3 {
+    font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700;
+    color: var(--or); margin-bottom: 0.8rem;
+  }
+  .valeur-card p {
+    font-size: 0.95rem; line-height: 1.7; color: var(--or-pale); opacity: 0.75;
+  }
+
+  /* ── MENU ── */
+  #menu {
+    padding: 7rem 4rem;
+    background: linear-gradient(180deg, var(--noir) 0%, #0f0c06 50%, var(--noir) 100%);
+  }
+  .menu-tabs {
+    display: flex; justify-content: center; gap: 0; margin: 3rem auto 0;
+    max-width: 800px; border: 1px solid rgba(200,151,58,0.25);
+    border-radius: 2px; overflow: hidden;
+  }
+  .tab-btn {
+    flex: 1; padding: 0.9rem 1rem; background: transparent;
+    border: none; border-right: 1px solid rgba(200,151,58,0.2); cursor: pointer;
+    font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--or-pale); opacity: 0.6;
+    transition: all 0.2s;
+  }
+  .tab-btn:last-child { border-right: none; }
+  .tab-btn.active, .tab-btn:hover {
+    background: rgba(200,151,58,0.1); color: var(--or); opacity: 1;
+  }
+  .menu-section { display: none; margin-top: 3rem; }
+  .menu-section.active { display: block; }
+
+  .menu-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1px; max-width: 1200px; margin: 0 auto;
+    border: 1px solid rgba(200,151,58,0.1);
+  }
+  .menu-item {
+    padding: 2rem 2.2rem; position: relative;
+    border-right: 1px solid rgba(200,151,58,0.08);
+    border-bottom: 1px solid rgba(200,151,58,0.08);
+    background: rgba(255,255,255,0.01); transition: background 0.3s;
+  }
+  .menu-item:hover { background: rgba(200,151,58,0.03); }
+  .menu-item-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 0.6rem; gap: 1rem;
+  }
+  .menu-item h3 {
+    font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700;
+    color: var(--creme); line-height: 1.2; flex: 1;
+  }
+  .menu-item .price {
+    font-family: 'DM Mono', monospace; font-size: 0.88rem;
+    color: var(--or); white-space: nowrap; font-weight: 400;
+  }
+  .menu-item .badge {
+    display: inline-block; font-family: 'DM Mono', monospace; font-size: 0.55rem;
+    letter-spacing: 0.15em; text-transform: uppercase; padding: 0.15rem 0.5rem;
+    background: rgba(139,26,26,0.3); color: #e8a0a0; border: 1px solid rgba(139,26,26,0.4);
+    border-radius: 1px; margin-bottom: 0.5rem;
+  }
+  .menu-item .badge.green {
+    background: rgba(26,80,26,0.3); color: #a0d0a0; border-color: rgba(26,80,26,0.4);
+  }
+  .menu-item p {
+    font-size: 0.9rem; line-height: 1.6; color: var(--or-pale); opacity: 0.65;
+    font-style: italic;
+  }
+  .menu-note {
+    text-align: center; margin-top: 2.5rem;
+    font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em;
+    color: var(--or); opacity: 0.6; text-transform: uppercase;
+  }
+  .menu-cat-title {
+    font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700;
+    color: var(--or); text-align: center; margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+
+  /* Supplements special grid */
+  .suppl-grid {
+    max-width: 600px; margin: 0 auto;
+    border: 1px solid rgba(200,151,58,0.15);
+  }
+  .suppl-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.1rem 2rem; border-bottom: 1px solid rgba(200,151,58,0.08);
+    transition: background 0.2s;
+  }
+  .suppl-item:last-child { border-bottom: none; }
+  .suppl-item:hover { background: rgba(200,151,58,0.04); }
+  .suppl-item span { font-size: 0.95rem; color: var(--or-pale); opacity: 0.8; }
+  .suppl-item .price { font-family: 'DM Mono', monospace; color: var(--or); font-size: 0.85rem; }
+
+  /* ── GALERIE ── */
+  #galerie { padding: 7rem 4rem; overflow: hidden; }
+  .galerie-strip {
+    display: flex; gap: 1.5rem; margin: 3rem -4rem 0;
+    overflow-x: auto; padding: 0 4rem 1rem;
+    scrollbar-width: thin; scrollbar-color: var(--or) transparent;
+  }
+  .galerie-card {
+    flex: 0 0 280px; height: 360px; position: relative;
+    overflow: hidden; border: 1px solid rgba(200,151,58,0.15);
+    border-radius: 2px;
+  }
+  .galerie-card img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: brightness(0.8) saturate(1.1);
+    transition: transform 0.6s ease, filter 0.4s;
+  }
+  .galerie-card:hover img { transform: scale(1.06); filter: brightness(0.95) saturate(1.2); }
+  .galerie-card::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(10,8,4,0.7) 100%);
+    pointer-events: none;
+  }
+  .galerie-card-label {
+    position: absolute; bottom: 1rem; left: 1.2rem; z-index: 1;
+    font-family: 'Playfair Display', serif; font-size: 1rem; font-style: italic;
+    color: var(--or-pale);
+  }
+  .instagram-link {
+    display: flex; align-items: center; justify-content: center; gap: 0.8rem;
+    margin: 2.5rem auto 0; font-family: 'DM Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--or);
+    text-decoration: none; opacity: 0.75; transition: opacity 0.2s;
+  }
+  .instagram-link:hover { opacity: 1; }
+
+  /* ── INFOS ── */
+  #infos {
+    padding: 7rem 4rem;
+    background: linear-gradient(180deg, var(--noir) 0%, #0e0b05 100%);
+  }
+  .infos-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px;
+    max-width: 1100px; margin: 4rem auto 0;
+    border: 1px solid rgba(200,151,58,0.15);
+  }
+  .info-block {
+    padding: 3rem 2.5rem;
+    border-right: 1px solid rgba(200,151,58,0.1);
+    background: rgba(255,255,255,0.01);
+  }
+  .info-block:last-child { border-right: none; }
+  .info-block h3 {
+    font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--or); margin-bottom: 1.8rem;
+    padding-bottom: 1rem; border-bottom: 1px solid rgba(200,151,58,0.2);
+  }
+  .horaire-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.55rem 0; border-bottom: 1px solid rgba(200,151,58,0.06);
+    font-size: 0.95rem;
+  }
+  .horaire-row:last-child { border-bottom: none; }
+  .horaire-row .jour { color: var(--or-pale); opacity: 0.75; }
+  .horaire-row .heure { font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--or); }
+  .horaire-row .ferme { color: var(--gris); font-family: 'DM Mono', monospace; font-size: 0.75rem; }
+  .contact-item {
+    display: flex; align-items: flex-start; gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .contact-icon { color: var(--or); font-size: 1.2rem; flex-shrink: 0; margin-top: 0.1rem; }
+  .contact-text { font-size: 0.95rem; line-height: 1.6; color: var(--or-pale); opacity: 0.8; }
+  .contact-text a { color: var(--or); text-decoration: none; }
+  .contact-text strong { color: var(--creme); font-weight: 600; }
+
+  .paiements { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.5rem; }
+  .paiement-badge {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(200,151,58,0.25); border-radius: 2px;
+    font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--or-pale); opacity: 0.85;
+    background: rgba(200,151,58,0.05);
+  }
+  .paiement-badge span { font-size: 1rem; }
+
+  /* Map embed */
+  .map-embed {
+    max-width: 1100px; margin: 3rem auto 0;
+    border: 1px solid rgba(200,151,58,0.15); overflow: hidden; border-radius: 2px;
+  }
+  .map-embed iframe { display: block; width: 100%; height: 350px; border: none; filter: grayscale(80%) contrast(1.1) brightness(0.8); }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 3rem 4rem; text-align: center;
+    border-top: 1px solid rgba(200,151,58,0.15);
+    background: #050402;
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900;
+    color: var(--or); letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .footer-logo em { font-style: italic; font-weight: 400; color: var(--or-clair); }
+  .footer-tagline {
+    font-size: 0.85rem; font-style: italic; color: var(--or-pale); opacity: 0.5;
+    margin-bottom: 2rem;
+  }
+  .footer-bottom {
+    font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--gris); opacity: 0.5;
+  }
+
+  /* ── ANIMATIONS ── */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    #valeurs, #menu, #galerie, #infos { padding: 5rem 1.5rem; }
+    .valeurs-grid { grid-template-columns: 1fr; }
+    .valeur-card { border-right: none; border-bottom: 1px solid rgba(200,151,58,0.12); }
+    .infos-grid { grid-template-columns: 1fr; }
+    .info-block { border-right: none; border-bottom: 1px solid rgba(200,151,58,0.1); }
+    .menu-tabs { overflow-x: auto; }
+    .tab-btn { font-size: 0.55rem; padding: 0.8rem 0.6rem; }
+    footer { padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">Burger <em>Parisien</em></a>
+  <ul class="nav-links">
+    <li><a href="#valeurs">L'Expérience</a></li>
+    <li><a href="#menu">La Carte</a></li>
+    <li><a href="#galerie">Galerie</a></li>
+    <li><a href="#infos">Contact</a></li>
+  </ul>
+  <div class="nav-halal">✦ Halal</div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-lines"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Champigny-sur-Marne · Depuis 2021</div>
+    <h1 class="hero-title">
+      Burger
+      <em>Parisien</em>
+    </h1>
+    <p class="hero-sub">
+      Des burgers artisanaux façonnés avec des steaks de bœuf de 130g,
+      des pains briochés sortis du four du boulanger, et des recettes qui font la différence.
+    </p>
+    <a href="#menu" class="hero-cta">Découvrir la carte →</a>
+  </div>
+  <div class="hero-scroll">Défiler</div>
+</section>
+
+<!-- VALEURS -->
+<section id="valeurs">
+  <div class="reveal">
+    <p class="section-label">Notre Philosophie</p>
+    <h2 class="section-title">L'Art du Burger <em>Artisanal</em></h2>
+    <p class="section-intro">Chaque burger est une promesse : des ingrédients soigneusement sélectionnés, une viande de qualité bouchère, et des recettes élaborées pour sublimer chaque bouchée.</p>
+  </div>
+  <div class="valeurs-grid reveal">
+    <div class="valeur-card">
+      <span class="valeur-icon">🥩</span>
+      <h3>Steak de Bœuf 130g</h3>
+      <p>Chaque burger est garni d'un steak du boucher de 130g, tendre et savoureux, cuit à la perfection pour préserver toute sa jutosité.</p>
+    </div>
+    <div class="valeur-card">
+      <span class="valeur-icon">🫓</span>
+      <h3>Pain Brioché Maison</h3>
+      <p>Nos pains briochés de 100g sont préparés quotidiennement par notre boulanger partenaire, légèrement toastés pour le parfait équilibre de texture.</p>
+    </div>
+    <div class="valeur-card">
+      <span class="valeur-icon">☪️</span>
+      <h3>100% Halal Certifié</h3>
+      <p>Tous nos produits sont certifiés Halal. Une promesse tenue à chaque service, pour que tous nos convives puissent déguster en toute confiance.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="reveal">
+    <p class="section-label">La Carte</p>
+    <h2 class="section-title">Nos <em>Créations</em></h2>
+    <p class="section-intro">Des recettes signatures qui mêlent tradition et audace. Menus servis avec frites maison — boisson ou dessert disponibles en option.</p>
+  </div>
+
+  <div class="menu-tabs reveal">
+    <button class="tab-btn active" onclick="showTab('classiques')">Classiques</button>
+    <button class="tab-btn" onclick="showTab('signatures')">Signatures</button>
+    <button class="tab-btn" onclick="showTab('veggie')">Veggie & Volaille</button>
+    <button class="tab-btn" onclick="showTab('prestige')">Prestige</button>
+    <button class="tab-btn" onclick="showTab('formules')">Formules</button>
+    <button class="tab-btn" onclick="showTab('supplements')">Frites & Suppléments</button>
+  </div>
+
+  <!-- CLASSIQUES -->
+  <div class="menu-section active" id="tab-classiques">
+    <div class="menu-grid">
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <h3>Formule Télétravail <br><small style="font-weight:300;font-size:0.85em;color:var(--gris)">(Hamburger Classic)</small></h3>
+          <span class="price">11,90 €</span>
+        </div>
+        <span class="badge" style="background:rgba(200,151,58,0.2);color:var(--or);border-color:rgba(200,151,58,0.4)">⭐ Populaire</span>
+        <p>Pain brioché maison, oignons frits, steak de bœuf 130g, cheddar rouge, oignons rouges, sauce classic maison, frites maison</p>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <h3>Cheeseburger Classic</h3>
+          <span class="price">11,90 €</span>
+        </div>
+        <span class="badge" style="background:rgba(200,151,58,0.2);color:var(--or);border-color:rgba(200,151,58,0.4)">⭐ Populaire</span>
+        <p>Pain brioché maison 100g, steak de bœuf 130g, oignons frits, cheddar rouge, tomate, oignons caramélisés maison, laitue, sauce classic maison, frites maison</p>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <h3>Burger Parisien Classic</h3>
+          <span class="price">11,90 €</span>
+        </div>
+        <p>Pain brioché maison 100g, steak de bœuf 130g, oignons frits, emmental français, sauce crème champignons de Paris maison, oignons caramélisés maison, salade, tomate, frites maison</p>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <h3>Blue Cheese Burger</h3>
+          <span class="price">11,90 €</span>
+        </div>
+        <span class="badge" style="background:rgba(200,151,58,0.2);color:var(--or);border-color:rgba(200,151,58,0.4)">⭐ Populaire</span>
+        <p>Pain brioché maison 100g, tomate, bleu d'Auvergne, steak de bœuf 130g, oignons caramélisés maison, laitue, sauce classic maison, oignons frits, balsamic, frites maison</p>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <h3>British Burger</h3>
+          <span class="price">13,90 €</span>
+        </div>
+        <p>Pain brioché maison 100g, steak de bœuf 130g, oignons frits, œuf au plat, oignons rouges, brie de meaux, poitrine de porc fumée, sauce classic maison, frites maison</p>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <h3>Burger Bacon Barbecue Classic</h3>
+          <span class="price">11,90 €</span>
+        </div>
+        <span class="badge" style="background:rgba(200,151,58,0.2);color:var(--or);border-color:rgba(200,151,58,0.4)">⭐ Populaire</span>
+        <p>Pain brioché maison 100g, steak de bœuf 130g, oignons frits, cheddar rouge, tomate, oignons caramélisés, laitue, sauce classic maison, sauce barbecue, poitrine de porc fumée grillée, frites maison</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURES -->
+  <div class="menu-section" id="tab-signatures">
+    <div class="menu-grid">
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <h3>Burger Chicago</h3>
+          <span class="price">13,90 €</span>
+        </div>
+        <span class="badge" style="background:rgba(200,151,58,0.2);color:var(--or);border-color:rgba(200,151,58,0.4)">⭐ Populaire</span>
+        <p>Pain brioché maison 100g, steak de bœuf 130g, bacon fumé porc, cantal, sauce crème de champignons, sauce chili thaï, salade, oignon frit, frites maison</p>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <h3>Burger Bœuf Grison</h3>
+          <span class="price">13,90 €</span>
+        </div>
+        <p>Pain brioché maison 100g, bœuf grison, steak de bœuf 130g, sauce béarnaise maison, oignons frits, fromage reblochon, oignons caramélisés maison, salade, frites maison</p>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <h3>Burger Raclette</h3>
+          <span class="price">13,90 €</span>
+        </div>
+        <p>Pain brioché maison 100g, steak de bœuf 130g, oignons frits et fromage raclette, bacon fumé porc, sauce béarnaise maison et oignons confits caramélisés maison. Avec frites maison.</p>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <h3>Burger Normand</h3>
+          <span class="price">13,90 €</span>
+        </div>
+        <p>Pain brioché maison 100g, steak de bœuf 130g, oignons frits camembert de Normandie au lait cru, poitrine de porc fumée, oignons confits maison, sauce classic maison, salade, frites maison</p>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <h3>Italien Burger</h3>
+          <span class="price">11,90 €</span>
+        </div>
+        <p>Pain brioché maison 100g, steak de bœuf 130g, grana padano, jambon cru, roquette, tomate, sauce pesto, fromage philadelphia, frites maison</p>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <h3>Pepperoni Burger</h3>
+          <span class="price">13,90 €</span>
+        </div>
+        <p>Pain brioché maison 100g, steak de bœuf 130g, oignons frits cheddar, chorizo, œuf au plat, oignons confits, sauce classic maison, roquette, frites maison</p>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <h3>Thaï Burger</h3>
+          <span class="price">11,90 €</span>
+        </div>
+        <p>Pain brioché maison 100g, steak de bœuf 130g, oignons frits coriandre, tomate, oignons caramélisés maison, roquette, marinade miel-soja-gingembre, frites maison</p>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <h3>Burger du Mois — Saint-Nectaire</h3>
+          <span class="price">13,90 €</span>
+        </div>
+        <p>Pain brioché, steak de bœuf 130g, fromage saint nectaire, sauce béarnaise, oignons confits caramélisés maison, oignons frits, poitrine fumée porc, sauce Chili thaï, salade, avec frites maison</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- VEGGIE & VOLAILLE -->
+  <div class="menu-section" id="tab-veggie">
+    <div class="menu-grid">
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <h3>Burger Veggie Classic</h3>
+          <span class="price">11,90 €</span>
+        </div>
+        <span class="badge green">🌿 Végétarien</span>
+        <p>Steak végétal maison, pain brioché maison 100g, oignons frits, sauce classic maison, oignons caramélisés maison, laitue, tomate et frites maison</p>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <h3>Poulet Tandoori Mariné Burger</h3>
+          <span class="price">11,90 €</span>
+        </div>
+        <p>Pain brioché maison 100g, poulet tandoori mariné, sauce tartare maison, oignons rouges, oignons frits, salade, tomate et pickles, avec frites maison</p>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <h3>Chicken Paillard Mariné Burger</h3>
+          <span class="price">11,90 €</span>
+        </div>
+        <p>Pain brioché maison 100g, paillard de poulet marin maison, oignons frits, sauce tartare maison, laitue, tomate, oignons caramélisés maison et frites maison</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRESTIGE -->
+  <div class="menu-section" id="tab-prestige">
+    <div class="menu-grid">
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <h3>Burger Foie Gras</h3>
+          <span class="price">15,90 €</span>
+        </div>
+        <span class="badge" style="background:rgba(200,151,58,0.15);color:var(--or);border-color:rgba(200,151,58,0.3)">✦ Prestige</span>
+        <p>Pain brioché maison 100g, steak de bœuf 130g, foie gras cuit, oignons frits, confiture figues, frites maison</p>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <h3>Burger Magret Canard Fumé</h3>
+          <span class="price">13,90 €</span>
+        </div>
+        <span class="badge" style="background:rgba(200,151,58,0.15);color:var(--or);border-color:rgba(200,151,58,0.3)">✦ Prestige</span>
+        <p>Pain brioché maison 100g, steak de bœuf 130g, fromage de chèvre, sauce miel et moutarde, brins de roquette, frites maison</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORMULES -->
+  <div class="menu-section" id="tab-formules">
+    <p class="menu-cat-title">Formules & Menus</p>
+    <div class="menu-grid" style="max-width:700px">
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <h3>Formule Kids<br><small style="font-weight:300;font-size:0.85em;color:var(--gris)">(Kids Burger)</small></h3>
+          <span class="price">8,90 €</span>
+        </div>
+        <p>Pain brioché maison 100g, steak de bœuf 100g, salade et cheddar rouge, frites maison</p>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-header">
+          <h3>Menu Burger + Frites</h3>
+          <span class="price">+Option</span>
+        </div>
+        <p>Tous nos burgers sont livrés avec frites maison. Menu avec boisson ou dessert disponible en option selon votre choix.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUPPLEMENTS -->
+  <div class="menu-section" id="tab-supplements">
+    <p class="menu-cat-title">Suppléments Frites pour Burger</p>
+    <div class="suppl-grid">
+      <div class="suppl-item">
+        <span>Frites maison avec chili thaï et oignons frits</span>
+        <span class="price">6,00 €</span>
+      </div>
+      <div class="suppl-item">
+        <span>Frites maison</span>
+        <span class="price">5,00 €</span>
+      </div>
+      <div class="suppl-item">
+        <span>Frites avec cheddar, chili thaï et oignons frits</span>
+        <span class="price">7,00 €</span>
+      </div>
+      <div class="suppl-item">
+        <span>Frites maison avec fromage Camembert de Normandie, sauce chili thaï et oignons frits</span>
+        <span class="price">7,00 €</span>
+      </div>
+      <div class="suppl-item">
+        <span>Frites avec fromage Reblochon, sauce chili thaï et oignons frits</span>
+        <span class="price">7,00 €</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="menu-note reveal">✦ Tous nos burgers sont composés d'un pain brioché sorti tout droit du four du boulanger et d'un steak du boucher de 130g ✦</p>
+</section>
+
+<!-- GALERIE -->
+<section id="galerie">
+  <div class="reveal">
+    <p class="section-label">Galerie</p>
+    <h2 class="section-title">Nos <em>Créations</em> en Images</h2>
+  </div>
+  <div class="galerie-strip">
+    <!-- Using placeholder images styled to match the restaurant's aesthetic -->
+    <div class="galerie-card">
+      <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80" alt="Burger artisanal">
+      <span class="galerie-card-label">Burger Signature</span>
+    </div>
+    <div class="galerie-card">
+      <img src="https://images.unsplash.com/photo-1550317138-10000687a72b?w=600&q=80" alt="Burger au fromage">
+      <span class="galerie-card-label">Blue Cheese</span>
+    </div>
+    <div class="galerie-card">
+      <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=600&q=80" alt="Frites maison">
+      <span class="galerie-card-label">Frites Maison</span>
+    </div>
+    <div class="galerie-card">
+      <img src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=600&q=80" alt="Burger double">
+      <span class="galerie-card-label">Burger Chicago</span>
+    </div>
+    <div class="galerie-card">
+      <img src="https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=600&q=80" alt="Burger gourmet">
+      <span class="galerie-card-label">Burger Normand</span>
+    </div>
+    <div class="galerie-card">
+      <img src="https://images.unsplash.com/photo-1596956470007-2bf6095e7e16?w=600&q=80" alt="Burger veggie">
+      <span class="galerie-card-label">Veggie Classic</span>
+    </div>
+  </div>
+  <a href="https://www.instagram.com/burger_parisien/" target="_blank" class="instagram-link reveal">
+    📸 Suivez-nous sur Instagram @burger_parisien →
+  </a>
+</section>
+
+<!-- INFOS -->
+<section id="infos">
+  <div class="reveal">
+    <p class="section-label">Nous Trouver</p>
+    <h2 class="section-title">Infos <em>Pratiques</em></h2>
+  </div>
+
+  <div class="infos-grid reveal">
+    <!-- Horaires -->
+    <div class="info-block">
+      <h3>⏱ Horaires d'Ouverture</h3>
+      <div class="horaire-row"><span class="jour">Lundi</span><span class="heure">11h30 – 15h00 · 17h00 – 00h00</span></div>
+      <div class="horaire-row"><span class="jour">Mardi</span><span class="heure">11h30 – 15h00 · 17h00 – 00h00</span></div>
+      <div class="horaire-row"><span class="jour">Mercredi</span><span class="heure">11h30 – 15h00 · 17h00 – 00h00</span></div>
+      <div class="horaire-row"><span class="jour">Jeudi</span><span class="heure">11h30 – 15h00 · 17h00 – 00h00</span></div>
+      <div class="horaire-row"><span class="jour">Vendredi</span><span class="heure">11h30 – 15h00 · 17h00 – 00h00</span></div>
+      <div class="horaire-row"><span class="jour">Samedi</span><span class="heure">11h30 – 15h00 · 17h00 – 00h00</span></div>
+      <div class="horaire-row"><span class="jour">Dimanche</span><span class="heure">17h00 – 00h00</span></div>
+    </div>
+
+    <!-- Contact & Adresse -->
+    <div class="info-block">
+      <h3>📍 Contact & Adresse</h3>
+      <div class="contact-item">
+        <span class="contact-icon">📞</span>
+        <div class="contact-text">
+          <strong>Téléphone</strong><br>
+          <a href="tel:+33177017271">01 77 01 72 71</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <span class="contact-icon">📍</span>
+        <div class="contact-text">
+          <strong>Adresse</strong><br>
+          186 Boulevard de Stalingrad<br>94500 Champigny-sur-Marne
+        </div>
+      </div>
+      <div class="contact-item">
+        <span class="contact-icon">🍔</span>
+        <div class="contact-text">
+          <strong>Livraison disponible</strong><br>
+          Sur Uber Eats · Sur place · À emporter
+        </div>
+      </div>
+      <div class="contact-item">
+        <span class="contact-icon">📸</span>
+        <div class="contact-text">
+          <strong>Instagram</strong><br>
+          <a href="https://www.instagram.com/burger_parisien/" target="_blank">@burger_parisien</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paiements -->
+    <div class="info-block">
+      <h3>💳 Modes de Paiement</h3>
+      <p style="font-size:0.88rem;color:var(--or-pale);opacity:0.7;margin-bottom:1.5rem;line-height:1.6;">Nous acceptons les moyens de paiement suivants pour votre confort :</p>
+      <div class="paiements">
+        <div class="paiement-badge"><span>💵</span> Espèces</div>
+        <div class="paiement-badge"><span>💳</span> Carte bancaire</div>
+        <div class="paiement-badge"><span>🎫</span> Tickets restaurant</div>
+        <div class="paiement-badge">
+          <svg width="24" height="16" viewBox="0 0 24 16" fill="none"><rect width="24" height="16" rx="2" fill="#1A1F71"/><text x="3" y="12" fill="white" font-size="7" font-family="sans-serif" font-weight="bold">VISA</text></svg>
+          Visa
+        </div>
+        <div class="paiement-badge">
+          <svg width="28" height="16" viewBox="0 0 28 16" fill="none"><circle cx="10" cy="8" r="7" fill="#EB001B" opacity="0.9"/><circle cx="18" cy="8" r="7" fill="#F79E1B" opacity="0.9"/></svg>
+          Mastercard
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAP -->
+  <div class="map-embed reveal">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2626.0!2d2.4969384!3d48.8234021!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e60d68966f73e5%3A0x4fd2c57fd8e278b9!2sBurger%20Parisien%20(Halal)!5e0!3m2!1sfr!2sfr!4v1711622400000!5m2!1sfr!2sfr"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      allowfullscreen
+      title="Localisation Burger Parisien">
+    </iframe>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Burger <em>Parisien</em></div>
+  <div class="footer-tagline">Restaurant de Hamburgers Artisanaux · 100% Halal · Champigny-sur-Marne</div>
+  <div class="footer-bottom">
+    186 Bd de Stalingrad, 94500 Champigny-sur-Marne · 01 77 01 72 71
+    &nbsp;·&nbsp; © 2025 Burger Parisien. Tous droits réservés.
+  </div>
+</footer>
+
+<script>
+  // Tab switching
+  function showTab(id) {
+    document.querySelectorAll('.menu-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    event.currentTarget.classList.add('active');
+  }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => io.observe(r));
+</script>
+</body>
+</html>
