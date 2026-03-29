@@ -149,10 +149,7 @@
     position: absolute; inset: 0; overflow: hidden; pointer-events: none;
   }
   .hero-lines::before {
-    content: ''; position: absolute;
-    left: 50%; top: 0; bottom: 0; width: 1px;
-    background: linear-gradient(180deg, transparent, rgba(200,151,58,0.15) 30%, rgba(200,151,58,0.15) 70%, transparent);
-    transform: translateX(-50%);
+    content: none;
   }
   .hero-content {
     position: relative; z-index: 1; text-align: center;
@@ -208,7 +205,7 @@
   .hero-scroll::after { content: '↓'; font-size: 1rem; }
 
   .hero-logo {
-    width: 90px; height: 90px; object-fit: contain;
+    width: 180px; height: 180px; object-fit: contain;
     margin-bottom: 1.5rem;
     filter: brightness(1.1) saturate(1.1) drop-shadow(0 0 18px rgba(200,151,58,0.35));
     animation: fadeUp 1s ease both;
@@ -444,9 +441,22 @@
   /* Map embed */
   .map-embed {
     max-width: 1100px; margin: 3rem auto 0;
-    border: 1px solid rgba(200,151,58,0.15); overflow: hidden; border-radius: 2px;
+    border: 1px solid rgba(200,151,58,0.3); overflow: hidden; border-radius: 2px;
+    position: relative;
+    box-shadow: 0 0 40px rgba(200,151,58,0.08);
   }
-  .map-embed iframe { display: block; width: 100%; height: 350px; border: none; filter: grayscale(80%) contrast(1.1) brightness(0.8); }
+  .map-embed iframe {
+    display: block; width: 100%; height: 350px; border: none;
+    filter: sepia(60%) saturate(0.7) hue-rotate(5deg) brightness(0.75) contrast(1.1);
+  }
+  /* Overlay doré au survol */
+  .map-embed::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(200,151,58,0.07) 0%, rgba(139,26,26,0.05) 100%);
+    pointer-events: none;
+    mix-blend-mode: color;
+  }
 
   /* ── FOOTER ── */
   footer {
@@ -526,7 +536,7 @@
     </p>
     <a href="#menu" class="hero-cta">Découvrir la carte →</a>
   </div>
-  <div class="hero-scroll">Défiler</div>
+  <div class="hero-scroll"></div>
 </section>
 
 
